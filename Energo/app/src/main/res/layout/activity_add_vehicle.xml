@@ -7,31 +7,17 @@
     android:layout_height="match_parent"
     tools:context=".AddVehicle">
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:contentDescription="TODO"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/background" />
 
-    <EditText
-        android:id="@+id/txtMarca"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:hint="Marca"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toStartOf="@+id/logo"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/logo"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:weightSum="10"
+    android:gravity="center">
 
     <TextView
         android:id="@+id/textView"
@@ -46,16 +32,18 @@
         app:layout_constraintStart_toEndOf="@+id/logo"
         app:layout_constraintTop_toTopOf="@+id/logo" />
 
-    <Button
-        android:id="@+id/addVehiculoBtnQuery"
+    <EditText
+        android:id="@+id/txtMarca"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:onClick="addVehicleQuery"
-        android:text="Añadir"
+        android:ems="10"
+        android:hint="Marca"
+        android:inputType="textPersonName"
         app:layout_constraintEnd_toStartOf="@+id/logo"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/logo"
-        app:layout_constraintTop_toBottomOf="@+id/txtAutonomia" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
         android:id="@+id/txtConsumo"
@@ -64,7 +52,7 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Consumo"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         app:layout_constraintEnd_toStartOf="@+id/logo"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/logo"
@@ -82,4 +70,15 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/logo"
         app:layout_constraintTop_toBottomOf="@+id/txtConsumo" />
+    <Button
+        android:id="@+id/addVehiculoBtnQuery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:onClick="addVehicleQuery"
+        android:text="Añadir"
+        app:layout_constraintEnd_toStartOf="@+id/logo"
+        app:layout_constraintStart_toEndOf="@+id/logo"
+        app:layout_constraintTop_toBottomOf="@+id/txtAutonomia" />
+</LinearLayout>
 </android.support.constraint.ConstraintLayout>
