@@ -24,11 +24,11 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference();
-        simpleList = findViewById(R.id.simpleListView);
+ /*       simpleList = findViewById(R.id.simpleListView);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_main, R.id.textView, countryList);
         simpleList.setAdapter(arrayAdapter);
         ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.activity_main,R.id.textView,StringArray);
-/*
+
         myRef.child("asistencia").addChildEventListener(object : ChildEventListener {
             override fun onChildMoved(p0: DataSnapshot, p1: String?) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

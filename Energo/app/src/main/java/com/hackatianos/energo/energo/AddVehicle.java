@@ -26,6 +26,11 @@ public class AddVehicle extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference();
         myRef.child("vehiculos").child(marca+consumo+autonomia+Math.round(Math.random() * 100000)).setValue(new Vehiculo(marca,Integer.parseInt(consumo),Integer.parseInt(autonomia)));
-    }
 
+        cancelVehicleQuery(view);
+    }
+    public void cancelVehicleQuery(View view){
+        finish();
+        onBackPressed();
+    }
 }
