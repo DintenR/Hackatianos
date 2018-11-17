@@ -39,12 +39,13 @@ public class Login extends AppCompatActivity {
         String email = txtemail.getText().toString();
         TextView txtpassword = findViewById(R.id.txtpassword);
         String password = txtpassword.getText().toString();
+
+        mAuth = FirebaseAuth.getInstance();
         if(password.isEmpty() || email.isEmpty()){
             Toast.makeText(Login.this, "No se ha introducido alguno de los datos.",
                     Toast.LENGTH_SHORT).show();
             return;
         }
-        mAuth = FirebaseAuth.getInstance();
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override

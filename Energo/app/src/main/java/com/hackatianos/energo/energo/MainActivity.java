@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -79,6 +80,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.signOut();
+    }
+
+    public void cerrarSesion() {
         mAuth = FirebaseAuth.getInstance();
         mAuth.signOut();
     }
