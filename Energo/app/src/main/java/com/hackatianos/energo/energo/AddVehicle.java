@@ -2,6 +2,7 @@ package com.hackatianos.energo.energo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -9,11 +10,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class AddVehicle extends AppCompatActivity {
-
+    private String email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_vehicle);
+        email = getIntent().getStringExtra("email");
+        Log.d("DEBUG","EMAIL:"+email);
     }
 
     public void addVehicleQuery(View view) {
@@ -25,7 +28,12 @@ public class AddVehicle extends AppCompatActivity {
         String autonomia = txtAutonomia.getText().toString();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference();
+<<<<<<< HEAD
         myRef.child("vehiculos").child(marca+consumo+autonomia+Math.round(Math.random() * 100000)).setValue(new Vehiculo(marca,Integer.parseInt(consumo),Integer.parseInt(autonomia)));
+=======
+        myRef.child("usuarios").child(email).child("vehiculos").child(marca+consumo+autonomia+Math.round(Math.random() * 100000)).setValue(new Vehiculo(marca,Integer.parseInt(consumo),Integer.parseInt(autonomia)));
+    }
+>>>>>>> 8afe334d08d7bab11b93d8de87b6ac527946a9f9
 
         cancelVehicleQuery(view);
     }

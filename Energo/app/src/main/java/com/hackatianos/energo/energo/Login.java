@@ -30,6 +30,7 @@ public class Login extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
             Intent intent = new Intent(getBaseContext(), MainActivity.class);
+            intent.putExtra("email",currentUser.getEmail().replaceAll("@","").replaceAll("\\.",""));
             startActivity(intent);
         }
     }
@@ -57,7 +58,8 @@ public class Login extends AppCompatActivity {
                             Toast.makeText(Login.this, "Bienvenid@",
                                     Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                            intent.putExtra("email",user.getEmail());
+                            String preuser = user.getEmail().replaceAll("@","");
+                            intent.putExtra("email",user.getEmail().replaceAll("@","").replaceAll("\\.",""));
                             startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
