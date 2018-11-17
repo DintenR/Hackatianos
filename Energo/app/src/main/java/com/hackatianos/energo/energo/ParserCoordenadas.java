@@ -38,9 +38,9 @@ public class ParserCoordenadas {
         reader.nextName();
         reader.beginObject();
         reader.nextName();
-        coordenadas[0] = reader.nextDouble();
+        coordenadas[0] = reader.nextDouble(); //Lat
         reader.nextName();
-        coordenadas[1] = reader.nextDouble();
+        coordenadas[1] = reader.nextDouble(); //Log
         }catch(Exception e){
 
         }

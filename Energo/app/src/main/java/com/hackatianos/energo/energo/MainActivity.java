@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -49,18 +50,33 @@ public class MainActivity extends AppCompatActivity {
     private double latitud, longitud;
     private Location location;
 
+
+
+    @Override
+    public void onBackPressed() {
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.signOut();
+        super.onBackPressed();
+    }
+
+    public void cerrarSesion() {
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.signOut();
+    }
+
+    //Add Vehicle BTN
+    public void addVehicle(View view) {
+        Intent intent = new Intent(this, AddVehicle.class);
+        intent.putExtra("email",email);
+        startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        presenter = new Presenter();
-        try {
-            br = new BufferedReader(new InputStreamReader(getAssets().open("estaciones.csv")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        new CargaDatosEstacionesTask(MainActivity.this).execute();
+
         email = getIntent().getStringExtra("email");
         Log.d("DEBUG", "EMAIL:" + email);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -75,15 +91,13 @@ public class MainActivity extends AppCompatActivity {
                 String vehName = listNameVeh.get(arg2);
                 Intent intent = new Intent(getBaseContext(), VehicleView.class);
                 intent.putExtra("veh",vehName);
+                intent.putExtra("email",email);
                 startActivity(intent);
             }
 
         });
 
-
-
-
-
+/*
         //Localizacion
         LocationManager locationManager = (LocationManager)
                 getSystemService(this.LOCATION_SERVICE);
@@ -98,7 +112,11 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        //////////////////
+    */
+        email = getIntent().getStringExtra("email");
+        Log.d("DEBUG","EMAIL:"+email);
+        simpleList = findViewById(R.id.simpleListView);
+
 
         myRef.child("usuarios").child(email).child("vehiculos").addChildEventListener(new ChildEventListener() {
 
@@ -106,14 +124,18 @@ public class MainActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Vehiculo value = dataSnapshot.getValue(Vehiculo.class);
                 listNameVeh.add(value.getMarca());
-
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getBaseContext(), R.layout.activity_listview, R.id.textView, listNameVeh);
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(MainActivity.this, R.layout.activity_listview, R.id.textView, listNameVeh);
                 simpleList.setAdapter(arrayAdapter);
 
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Vehiculo value = dataSnapshot.getValue(Vehiculo.class);
+                listNameVeh.remove(s.replaceAll("\\d",""));
+                listNameVeh.add(value.getMarca());
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(MainActivity.this, R.layout.activity_listview, R.id.textView, listNameVeh);
+                simpleList.setAdapter(arrayAdapter);
 
             }
 
@@ -138,6 +160,15 @@ public class MainActivity extends AppCompatActivity {
                 Log.w("ERROR", "Failed to read value.", error.toException());
             }
         });
+
+        presenter = new Presenter();
+        try {
+            br = new BufferedReader(new InputStreamReader(getAssets().open("estaciones.csv")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        new CargaDatosEstacionesTask(MainActivity.this).execute();
+
 
     }
     private class CargaDatosEstacionesTask extends AsyncTask<Void, Void, Boolean> {
@@ -168,10 +199,10 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-    
+
 
     }
-    private class CalculaMasCercana extends AsyncTask<Void, Void, Boolean> {
+    class CalculaMasCercana extends AsyncTask<Void, Void, Boolean> {
 
         Activity activity;
 
@@ -201,18 +232,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-    }
-    @Override
-    public void onBackPressed() {
-        mAuth = FirebaseAuth.getInstance();
-        mAuth.signOut();
-        super.onBackPressed();
-    }
-
-    //Add Vehicle BTN
-    public void addVehicle(View view) {
-        Intent intent = new Intent(this, AddVehicle.class);
-        intent.putExtra("email",email);
-        startActivity(intent);
     }
 }

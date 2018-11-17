@@ -3,17 +3,12 @@ package com.hackatianos.energo.energo;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.hackatianos.energo.energo.EstacionRecarga;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
-import org.json.JSONException;
-
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +33,7 @@ public class ParserEstacionRecarga {
      * @throws IOException
      */
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public static List<EstacionRecarga> parseaArrayEstacionRecarga(BufferedReader br) throws IOException {
+    public static List parseaArrayEstacionRecarga(BufferedReader br) throws IOException {
         //FileReader reader = new FileReader(file);
         //BufferedReader br = new BufferedReader(reader);
         try {

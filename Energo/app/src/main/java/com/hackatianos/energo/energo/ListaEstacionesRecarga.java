@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ListaEstacionesRecarga {
 
-    private List<EstacionRecarga> lista;
+    private List lista;
     private File file;
 
     private static final String URL_ESTACIONES = "https://sedeaplicaciones.minetur.gob.es/Greco/DatosRISP.aspx?fichero=exportarcsv";
