@@ -6,14 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="380dp"
-        android:layout_height="439dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteY="598dp">
-
-    </android.support.v7.widget.RecyclerView>
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addVehicleBtn"
         android:layout_width="wrap_content"
@@ -28,5 +20,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_input_add" />
+
+    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/simpleListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context="MainActivity">
+    </ListView>
 
 </android.support.constraint.ConstraintLayout>

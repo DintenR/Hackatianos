@@ -3,7 +3,11 @@ package com.hackatianos.energo.energo;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -12,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private ListView simpleList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +24,10 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference();
+        simpleList = findViewById(R.id.simpleListView);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_main, R.id.textView, countryList);
+        simpleList.setAdapter(arrayAdapter);
+        ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.activity_main,R.id.textView,StringArray);
 /*
         myRef.child("asistencia").addChildEventListener(object : ChildEventListener {
             override fun onChildMoved(p0: DataSnapshot, p1: String?) {

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "570413809588",
+    "firebase_url": "https://energo-e6c54.firebaseio.com",
+    "project_id": "energo-e6c54",
+    "storage_bucket": "energo-e6c54.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:570413809588:android:2908a805548c16ff",
+        "android_client_info": {
+          "package_name": "com.hackatianos.energo.energo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "570413809588-o2ub8oaqbgkb4pagbodj13js5en5a2f2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hackatianos.energo.energo",
+            "certificate_hash": "4615e73e496539b0e711b1467aaf28a7337ee051"
+          }
+        },
+        {
+          "client_id": "570413809588-orok0mkjncitqim0na9t8ks2stl8s1pr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSQ94u-eqN-7d3fQLM4ZBOBwqYUuY_zj0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "570413809588-orok0mkjncitqim0na9t8ks2stl8s1pr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
