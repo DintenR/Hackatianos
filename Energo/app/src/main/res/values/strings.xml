@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Energo</string>
+    <string name="logo_energo">logo_energo.png</string>
+    <string name="title_activity_map_view">MapView</string>
 </resources>
