@@ -9,11 +9,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class AddVehicle extends AppCompatActivity {
-
+    private String email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_vehicle);
+        email = getIntent().getStringExtra("email");
     }
 
     public void addVehicleQuery(View view) {
@@ -25,7 +26,7 @@ public class AddVehicle extends AppCompatActivity {
         String autonomia = txtAutonomia.getText().toString();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference();
-        myRef.child("vehiculos").child(marca+consumo+autonomia+Math.round(Math.random() * 100000)).setValue(new Vehiculo(marca,Integer.parseInt(consumo),Integer.parseInt(autonomia)));
+        myRef.child("usuarios").child(email).child("vehiculos").child(marca+consumo+autonomia+Math.round(Math.random() * 100000)).setValue(new Vehiculo(marca,Integer.parseInt(consumo),Integer.parseInt(autonomia)));
     }
 
 }
