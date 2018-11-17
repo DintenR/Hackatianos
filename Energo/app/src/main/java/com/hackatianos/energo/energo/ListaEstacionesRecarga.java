@@ -1,6 +1,8 @@
 package com.hackatianos.energo.energo;
 
 import android.app.ListActivity;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,8 +21,10 @@ public class ListaEstacionesRecarga {
     private static final String URL_ESTACIONES = "https://sedeaplicaciones.minetur.gob.es/Greco/DatosRISP.aspx?fichero=exportarcsv";
 
     public ListaEstacionesRecarga()  {
+        lista = new ArrayList<>();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void cargaEstaciones(BufferedReader br) throws IOException {
         //file = new File("file:///android_asset/estaciones.csv");
         //file = new File(getAssets().open("cms.csv"));
@@ -55,5 +59,24 @@ public class ListaEstacionesRecarga {
                 return resultado;
             }
         });
+    }
+
+    private double[] puntoMedio(double[] x, double[] y){
+        double x1 = x[0];
+        double x2 = x[1];
+        double y1 = y[0];
+        double y2 = y[1];
+
+        double z1 = (x1 + y1) / 2;
+        double z2 = (x2 + y2) / 2;
+
+        double[] t = new double[]{z1,z2};
+
+        return t;
+    }
+
+
+    public List<EstacionRecarga> getLista(){
+        return lista;
     }
 }

@@ -1,6 +1,7 @@
 package com.hackatianos.energo.energo;
 
 import android.util.JsonReader;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,51 +20,31 @@ public class ParserCoordenadas {
     }
     private static double[] parseaCoordenadas(JsonReader reader) throws IOException {
         double[] coordenadas = new double[2];
-        String sName;
-        boolean encontrado=false;
+        try{
         reader.beginObject();
-        for(int i=0;i<6;i++){
-            reader.nextName();
-            reader.skipValue();
-        }
-        reader.endObject();
+        reader.nextName();
+        reader.skipValue();
+        reader.nextName();
         reader.beginArray();
         reader.beginObject();
-//        reader.beginObject();
-//        reader.skipValue();
-//        reader.beginObject();
-//        //salto valores
-//        reader.skipValue();
-//        reader.skipValue();
-//        reader.skipValue();
-//        reader.skipValue();
-//        reader.skipValue();
-//        reader.skipValue();
-//        reader.skipValue();
-//        reader.skipValue();
-//        reader.skipValue();
-//        reader.skipValue();
-//        //fin salto
-//        reader.endObject();
-//        reader.beginArray();
-//        reader.beginObject();
-        while (reader.hasNext() && !encontrado){
-            sName=reader.nextName();
-            if(sName.equals("position")){
-                reader.beginObject();
-                //latitud
-                coordenadas[0]=reader.nextDouble();
-                //longitud
-                coordenadas[1]=reader.nextDouble();
-                reader.endObject();
-                encontrado = true;
-            }else{
-                reader.skipValue();
-            }
+        reader.nextName();
+        reader.skipValue();
+        reader.nextName();
+        reader.skipValue();
+        reader.nextName();
+        reader.skipValue();
+        reader.nextName();
+        reader.skipValue();
+        reader.nextName();
+        reader.beginObject();
+        reader.nextName();
+        coordenadas[0] = reader.nextDouble();
+        reader.nextName();
+        coordenadas[1] = reader.nextDouble();
+        }catch(Exception e){
+
         }
-        reader.endObject();
-        reader.endArray();
-        reader.endObject();
         return coordenadas;
     }
+
 }

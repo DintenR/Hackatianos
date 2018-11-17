@@ -1,8 +1,16 @@
 package com.hackatianos.energo.energo;
 
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.hackatianos.energo.energo.EstacionRecarga;
+
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
+
+import org.json.JSONException;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -25,10 +33,11 @@ public class ParserEstacionRecarga {
      * Crea un JsonReader para el stream de datos y llama a un método auxiliar que lo analiza
      * y extrae una lista de objetos Provincia que es la que se devuelve
      *
-     * @param file Inputsream Stream de datos JSON
+     * @param
      * @return List<Provincia> Lista de objetos Provincia con los datos obtenidas tras parsear el JSON
      * @throws IOException
      */
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static List<EstacionRecarga> parseaArrayEstacionRecarga(BufferedReader br) throws IOException {
         //FileReader reader = new FileReader(file);
         //BufferedReader br = new BufferedReader(reader);
@@ -54,12 +63,15 @@ public class ParserEstacionRecarga {
      * @return List Lista de objetos Provincia con los datos obtenidas tras parsear el JSON
      * @throws IOException
      */
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static List readArrayEstacionRecarga(BufferedReader reader) throws IOException{
         List<EstacionRecarga> lista = new ArrayList<>();
         String linea;
         reader.readLine();//lee la primera linea
-        while((linea = reader.readLine()) != null){
-            lista.add(readEstacionRecarga(linea));
+        while((linea = reader.readLine()) != null){FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference();
+            EstacionRecarga e = readEstacionRecarga(linea);
+            myRef.child("estaciones").child(e.getDireccion().replace("\\.","").replace("/","")).setValue(e);
         }
         Log.d("D","Se han cargado "+lista.size()+" estaciones");
         return lista;
@@ -81,54 +93,65 @@ public class ParserEstacionRecarga {
      * @return Gasolinera Objetos Gasolinera con los datos obtenidas tras parsear el JSON
      * @throws IOException
      */
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private static EstacionRecarga readEstacionRecarga(String linea) throws IOException {
        EstacionRecarga estacion = new EstacionRecarga();
        String aux;
        int pos;
+       linea = linea.substring(1);
        //Provincia
-       pos = linea.indexOf(',');
+       pos = linea.indexOf("\"");
+       Log.d("D", linea);
        aux = linea.substring(0,pos);
        Log.d("D",aux);
        aux = aux.replace("\"","");
-       linea = linea.substring(pos+1,linea.length());
+       linea = linea.substring(pos+3,linea.length());
+       aux = aux.replaceAll("\\.","").replaceAll("/","");
        estacion.setProvincia(aux);
+        Log.d("D", linea);
        //Municipio
-        pos = linea.indexOf(',');
+        pos = linea.indexOf("\"");
+        Log.d("D","pos "+pos);
         aux = linea.substring(0,pos);
         Log.d("D",aux);
         aux = aux.replace("\"","");
-        linea = linea.substring(pos+1,linea.length());
+        linea = linea.substring(pos+3,linea.length());
+        aux = aux.replaceAll("\\.","").replaceAll("/","");
         estacion.setMunicipio(aux);
+        Log.d("D", linea);
         //Direccionç
 
-        linea = linea.substring(1,linea.length());
+        linea = linea.substring(0,linea.length());
         Log.d("D",linea);
        pos = linea.indexOf('\"');
        aux = linea.substring(0,pos);
        aux = aux.replace("\"","");
-       linea = linea.substring(pos+2,linea.length());
+       linea = linea.substring(pos+3,linea.length());
+        aux = aux.replaceAll("\\.","").replaceAll("/","");
         estacion.setDireccion(aux);
        //rsocial
-       pos = linea.indexOf(',');
+        pos = linea.indexOf('\"');
        aux = linea.substring(0,pos);
        aux = aux.replace("\"","");
-       linea = linea.substring(pos+1,linea.length());
+       linea = linea.substring(pos+3,linea.length());
+        aux = aux.replaceAll("\\.","").replaceAll("/","");
        estacion.setrSocial(aux);
        //numTomas
-       pos = linea.indexOf(',');
+        pos = linea.indexOf('\"');
        aux = linea.substring(0,pos);
        aux = aux.replace("\"","");
-       linea = linea.substring(pos+1,linea.length());
+       linea = linea.substring(pos+3,linea.length());
        estacion.setNumPuntosCarga(Integer.parseInt(aux));
        //tension
-       pos = linea.indexOf(',');
+        pos = linea.indexOf('\"');
        aux = linea.substring(0,pos);
        aux = aux.replace("\"","");
-       linea = linea.substring(pos+1,linea.length());
-       estacion.setTension(Integer.parseInt(aux));
+       linea = linea.substring(pos+3,linea.length());
+       estacion.setTension(aux);
         //coordenadas
-       double[] coordenadas = ParserCoordenadas.getCoordenadas(estacion.getDireccion());
-       estacion.setLatitud(coordenadas[0]);
+        double[] coordenadas = new double[0];
+            coordenadas = ParserCoordenadas.getCoordenadas(estacion.getDireccion() + " " + estacion.getMunicipio());
+        estacion.setLatitud(coordenadas[0]);
        estacion.setLongitud(coordenadas[1]);
 
        return estacion;
