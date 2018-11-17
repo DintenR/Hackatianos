@@ -1,6 +1,8 @@
 package com.hackatianos.energo.energo;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,27 +27,48 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private ListView simpleList;
     private String email;
-    ArrayList<Vehiculo> listVeh = new ArrayList<>();
+    ArrayList<String> listNameVeh = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         email = getIntent().getStringExtra("email");
+        Log.d("DEBUG","EMAIL:"+email);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference();
         simpleList = findViewById(R.id.simpleListView);
 
 
-        myRef.child("usuarios").child(email).child("vehiculos").addValueEventListener(new ValueEventListener() {
+        myRef.child("usuarios").child(email).child("vehiculos").addChildEventListener(new ChildEventListener() {
+
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Vehiculo value = dataSnapshot.getValue(Vehiculo.class);
-                listVeh.add(value);
-                //ArrayAdapter<Vehiculo> arrayAdapter = new ArrayAdapter<Vehiculo>(this, R.layout.activity_main, R.id.textView, (Vehiculo[]) listVeh.toArray());
-                //simpleList.setAdapter(arrayAdapter);
-                //ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.activity_main,R.id.textView,StringArray);
+                listNameVeh.add(value.getMarca());
+
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getBaseContext(), R.layout.activity_listview, R.id.textView, listNameVeh);
+                simpleList.setAdapter(arrayAdapter);
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                Vehiculo value = dataSnapshot.getValue(Vehiculo.class);
+                listNameVeh.remove(value.getMarca());
+
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getBaseContext(), R.layout.activity_listview, R.id.textView, listNameVeh);
+                simpleList.setAdapter(arrayAdapter);
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
             }
 
             @Override
